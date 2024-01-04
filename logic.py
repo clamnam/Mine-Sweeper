@@ -8,7 +8,7 @@ class logic:
         self.level = level
     def grid(self):
         # dictionary to with difficulty information
-        difficulty = {"easy":(10,10,10),"intermediate":(16,16,3),"hard":(16,30,99)}
+        difficulty = {"easy":(10,10,10),"intermediate":(16,16,10),"hard":(16,30,99)}
 
         if self.level in difficulty:
             # creates empty grid
@@ -29,35 +29,35 @@ class logic:
             mine_coords.append((x,y))
         # enter mines in grid
         for mines in mine_coords:
-            self.grid_array[mines[1]][mines[0]] = (9)
-            self.hinting(mines[1],mines[0])
+            self.grid_array[mines[0]][mines[1]] = 9
+            # self.hinting(mines[0],mines[1])
 
         print(self.grid_array)
 
 
 
     def hinting(self,coord_x,coord_y):
-        # pass
-        def add_following_x_hint():
-            print(coord_x,coord_y)
-            self.grid_array[coord_y][coord_x-1]+=1
-        # def add_following_y_hint():
-        #     self.grid_array[coord_y+1][coord_x]+=1
+        def add_hint(x,y):
+            if 0 <= x < len(self.grid_array) and 0 <= y < len(self.grid_array) :
+                self.grid_array[x][y]+=1
+        # following x
+        add_hint(coord_x+1,coord_y)
+        # previous x
+        add_hint(coord_x-1,coord_y)
+        # following y
+        add_hint(coord_x,coord_y+1)
+        # previous y
+        add_hint(coord_x,coord_y-1)
+        # previous x,y
+        add_hint(coord_x-1,coord_y-1)
+        # following x,y
+        add_hint(coord_x+1,coord_y+1)
+        # previous x following y
+        add_hint(coord_x-1,coord_y+1)
+        # previous y following x
+        add_hint(coord_x+1,coord_y-1)
 
-        # def add_previous_x_hint():
-        #     self.grid_array[coord_y-1][coord_x]+=1
 
-        # def add_previous_y_hint():
-        #     self.grid_array[coord_y-1][coord_x]+=1
-        if(coord_x < len(self.grid_array[coord_y])-1):
-            print(coord_y,coord_x,'incase')
-            add_following_x_hint()
-        # if(coord_x >0):
-        #     add_previous_x_hint()
-        # if(coord_y+1 < len(self.grid_array[coord_y])):
-        #     add_following_y_hint()
-        # if(coord_y):
-        #     add_previous_y_hint()
 
         
 
