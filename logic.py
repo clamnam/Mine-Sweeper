@@ -6,18 +6,28 @@ class logic:
 
         self.grid_array = []
         self.level = level
+        self.difficulty = {"easy":(10,10,10),"intermediate":(16,16,10),"hard":(16,30,99)}
+        if self.level in self.difficulty:
+            self.cols = self.difficulty[self.level][0]
+            self.rows = self.difficulty[self.level][1]
+
+    def mask_grid(self):
+        if self.level in self.difficulty:
+            # creates empty grid
+            self.cols = self.difficulty[self.level][0]
+            self.rows = self.difficulty[self.level][1]
+            matrix = [['o' for _ in range(self.cols)] for _ in range(self.rows)]
+
+            for x,row in enumerate(matrix) :print(matrix[x])
+
+
     def grid(self):
         # dictionary to with difficulty information
-        difficulty = {"easy":(10,10,10),"intermediate":(16,16,10),"hard":(16,30,99)}
 
-        if self.level in difficulty:
-            # creates empty grid
-            cols = difficulty[self.level][0]
-            rows = difficulty[self.level][1]
-            self.grid_array=np.zeros((cols,rows))
+
+            matrix = [[0 for _ in range(self.cols)] for _ in range(self.rows)]
             
-            self.mines(difficulty[self.level][2],cols,rows)
-        else:
+            self.mines(self.difficulty[self.level][2],self.cols,self.rows)
             return "invalid difficulty entry"
     
     def mines(self,mines,cols,rows):
@@ -30,7 +40,7 @@ class logic:
         # enter mines in grid
         for mines in mine_coords:
             self.grid_array[mines[0]][mines[1]] = 9
-            # self.hinting(mines[0],mines[1])
+            self.hinting(mines[0],mines[1])
 
         print(self.grid_array)
 
@@ -61,6 +71,4 @@ class logic:
 
         
 
-sweep = logic('intermediate')
 
-sweep.grid()
